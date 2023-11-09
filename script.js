@@ -64,7 +64,7 @@ grid.forEach(function(element,row) {
         scacchiera.appendChild(cell)
 
     })
-    
+    suka
 });
 
 scacchiera.addEventListener("click",getClickPosition,false);
