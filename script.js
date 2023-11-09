@@ -42,7 +42,7 @@ grid.forEach(function(element,row) {
 
 
         
-        
+         
         
         let tipo
         if(content === 0){
