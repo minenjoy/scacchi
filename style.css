@@ -1,0 +1,80 @@
+*{margin: 0;padding: 0; box-sizing: content-box;}
+
+.container{
+    width: 480px;
+    border: 2px solid black;
+    
+}
+
+.text{
+    display: flex;
+    justify-content: space-between;
+}
+
+.scacchiera{
+    display: flex;
+    flex-wrap: wrap;
+}
+.b{
+    background-color: rgb(150,75,0);
+    width: 60px;
+    height: 60px;
+}
+
+.w{
+    background-color: white;
+    width: 60px;
+    height: 60px;
+}
+
+.a{
+    color:black;
+}
+.ped.wh{
+    background-image: url(img/ped_b.png);
+}
+
+.ped.bl{
+    background-image: url(img/ped_n.png);
+}
+.alf.wh{
+    background-image: url(img/alf_b.png);
+}
+
+.alf.bl{
+    background-image: url(img/alf_n.png);
+}
+.tor.wh{
+    background-image: url(img/tor_b.png);
+}
+
+.tor.bl{
+    background-image: url(img/tor_n.png);
+}
+.reg.wh{
+    background-image: url(img/reg_b.png);
+}
+
+.reg.bl{
+    background-image: url(img/reg_n.png);
+}
+.re.wh{
+    background-image: url(img/re_b.png);
+}
+
+.re.bl{
+    background-image: url(img/re_n.png);
+}
+.cav.wh{
+    background-image: url(img/cav_b.png);
+}
+
+.cav.bl{
+    background-image: url(img/cav_n.png);
+}
+.sel{
+    background-color: green;
+}
+.target{
+    background-color: red;   
+}
