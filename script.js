@@ -160,13 +160,16 @@ function pedone(cell,i,indRow,indColumn) {
     cell[startpos].classList.add('target')
     let newpose=document.querySelectorAll('.target')
 
-  newpose.addEventListener("click",posiziona(cell[i],newpose))
+  newpose.addEventListener("click",posiziona(cell[i],...newpose))
     
   
 }
 
 function posiziona(prev,act){
- prev.classList.remove('sel','wh','ped')
+ console.log(prev);
+ console.log("-----");
+ console.log(act);
  act.classList.remove('taget')
+    prev.classList.remove('sel','wh','ped')
  act.classList.add('ped','wh')
 }
