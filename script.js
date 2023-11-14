@@ -13,17 +13,21 @@ let selCell
 let infolastcell
 let varturni=true
 
+let actrow
+let actcol
+let actind
+
 const pezzi=[
-    [['tor','wh'],'cav_w','alf_w','reg_w','re_w','alf_w','cav_w','tor_w'],
-    ['ped_w','ped_w','ped_w','ped_w','ped_w','ped_w','ped_w','ped_w'],
+    [['tor','wh'],['cav','wh'],['alf','wh'],['reg','wh'],['re','wh'],['alf','wh'],['cav','wh'],['tor','wh']],
+    [['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh']],
     ['a','a','a','a','a','a','a','a'],
     ['a','a','a','a','a','a','a','a'],
     ['a','a','a','a','a','a','a','a'],
     ['a','a','a','a','a','a','a','a'],
-    ['ped_b','ped_b','ped_b','ped_b','ped_b','ped_b','ped_b','ped_b'],
-    ['tor_b','cav_b','alf_b','reg_b','re_b','alf_b','cav_b','tor_b'],
+    [['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl']],
+    [['tor','bl'],['cav','bl'],['alf','bl'],['re','bl'],['reg','bl'],['alf','bl'],['cav','bl'],['tor','bl']],
 ]
-let grid=[
+const grid=[
     [1,0,1,0,1,0,1,0],
     [0,1,0,1,0,1,0,1],
     [1,0,1,0,1,0,1,0],
@@ -33,40 +37,51 @@ let grid=[
     [1,0,1,0,1,0,1,0],
     [0,1,0,1,0,1,0,1],
 ];
+let posiz=[
+    [['tor','wh'],['cav','wh'],['alf','wh'],['reg','wh'],['re','wh'],['alf','wh'],['cav','wh'],['tor','wh']],
+    [['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh'],['ped','wh']],
+    ['a','a',['ped','wh'],'a','a','a','a','a'],
+    ['a','a','a','a','a','a','a','a'],
+    ['a','a','a','a','a','a','a','a'],
+    ['a','a','a','a','a','a','a','a'],
+    [['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl'],['ped','bl']],
+    [['tor','bl'],['cav','bl'],['alf','bl'],['re','bl'],['reg','bl'],['alf','bl'],['cav','bl'],['tor','bl']],
+]
 
 turni();
-
-grid.forEach(function(element,row) {
-    element.forEach(function(content,index,){
-        const cell=document.createElement('div')
-
-
+disegnacampo()
+disegnapezzi()
+function disegnacampo(){
+scacchiera.innerHTML=""
+    grid.forEach(function(element,row) {
+        element.forEach(function(content,index,){
+            const cell=document.createElement('div')
+            let tipo
+            if(content === 0){
+                tipo = "w"
+            } else {
+                tipo = "b"
+            }
+          //  const pezziVal = Array.isArray(posiz[row][index]) ? posiz[row][index] : [posiz[row][index]];
+            
+            cell.classList.add(tipo, "r"+row, "c"+index,"cell")  
+            scacchiera.appendChild(cell)
+            
+        })
         
-         
-        
-        let tipo
-        if(content === 0){
-            tipo = "w"
-        } else {
-            tipo = "b"
-        }
-        
-        console.log(pezzi[row][index])
-        
-        const pezziVal = Array.isArray(pezzi[row][index]) ? pezzi[row][index] : [pezzi[row][index]];
-        
-        cell.classList.add(tipo, "r"+row, "c"+index, ...pezziVal )
-
-
-
-
-        
-        scacchiera.appendChild(cell)
-
+    });
+}
+function disegnapezzi(){
+    let celle=document.querySelectorAll('.cell')
+    pezzi.forEach(function(elementP,rowP){
+        elementP.forEach(function(contentP,indexP){
+            const pezziVal = Array.isArray(posiz[rowP][indexP]) ? posiz[rowP][indexP] : [posiz[rowP][indexP]]; 
+        celle[rowP*8+indexP].classList.add(...pezziVal )
     })
-    suka
-});
-
+    })
+  //  console.log(celle);  
+}
+    
 scacchiera.addEventListener("click",getClickPosition,false);
 
 function getClickPosition(e) {
@@ -82,41 +97,52 @@ function calcIndex(posColumn,posRow){
     }
 
 function modify(indColumn,indRow) {
-    const cell = document.querySelectorAll('div')
+    const cell = document.querySelectorAll('.cell')
     for(i=0;i<=cell.length;i++){
         if(cell[i].classList.contains("r"+(indRow))&&cell[i].classList.contains("c"+(indColumn))){
             
-            for (let index = 0; index < cell.length; index++) {
-              if(cell[index].classList.contains('sel')){
 
-                  cell[index].classList.remove('sel')
+            if(varturni===true && cell[i].classList.contains('wh')|| varturni===false && cell[i].classList.contains('bl')){
+                
+                for (let index = 0; index < cell.length; index++) {
+                    if(cell[index].classList.contains('sel')){
+                        
+                        cell[index].classList.remove('sel')
+                    } else if(cell[index].classList.contains('target')){
+                        
+                        cell[index].classList.remove('target')
+                    }
+                    
                 }
-                  
+                cell[i].classList.add('sel')
+
+                
+                
+                check(cell,i,indRow,indColumn);
             }
-        cell[i].classList.add('sel')
-        check(cell[i]);
         }
-    }   
-
-}
-
-function check(cell){
-    if(cell.classList.contains('ped_w')||cell.classList.contains('ped_b')){
-        console.log("pedone");
     }
-    if(cell.classList.contains('tor_w')||cell.classList.contains('tor_b')){
+}   
+
+
+
+function check(cell,i,indRow,indColumn){
+    if(cell[i].classList.contains('ped')){
+pedone(cell,i,indRow,indColumn);
+    }
+    if(cell[i].classList.contains('tor')){
         console.log("torre");
     }
-    if(cell.classList.contains('reg_w')||cell.classList.contains('reg_b')){
+    if(cell[i].classList.contains('reg')){
         console.log("regina");
     }
-    if(cell.classList.contains('re_w')||cell.classList.contains('re_b')){
+    if(cell[i].classList.contains('re')){
         console.log("re");
     }
-    if(cell.classList.contains('alf_w')||cell.classList.contains('alf_b')){
+    if(cell[i].classList.contains('alf')){
         console.log("alfiere");
     }
-    if(cell.classList.contains('cav_w')||cell.classList.contains('cav_b')){
+    if(cell[i].classList.contains('cav')){
         console.log("cavallo");
     }
 
@@ -126,4 +152,21 @@ function turni(){
     if(varturni=true){
         turno.innerText="turno di bianco"
     }
+}
+
+function pedone(cell,i,indRow,indColumn) {
+
+    let startpos=cell[i].classList.contains('r1') ? (indRow+2)*8+indColumn:(indRow+1)*8+indColumn
+    cell[startpos].classList.add('target')
+    let newpose=document.querySelectorAll('.target')
+
+  newpose.addEventListener("click",posiziona(cell[i],newpose))
+    
+  
+}
+
+function posiziona(prev,act){
+ prev.classList.remove('sel','wh','ped')
+ act.classList.remove('taget')
+ act.classList.add('ped','wh')
 }

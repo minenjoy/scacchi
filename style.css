@@ -73,7 +73,7 @@
     background-image: url(img/cav_n.png);
 }
 .sel{
-    background-color: green;
+    background-color: rgb(19, 234, 19);
 }
 .target{
     background-color: red;   
